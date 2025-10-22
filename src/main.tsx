@@ -1,18 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import App from "./pages/App";
-import { SidebarProvider } from "./components/ui/sidebar";
 import { AppSidebar } from "./components/layout/sidebar";
+import Providers from "./providers";
 
 createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <SidebarProvider>
-                <AppSidebar />
-                <App />
-            </SidebarProvider>
-        </ThemeProvider>
-    </StrictMode>
+	<StrictMode>
+		<Providers>
+			<AppSidebar />
+			<App />
+		</Providers>
+	</StrictMode>
 );
