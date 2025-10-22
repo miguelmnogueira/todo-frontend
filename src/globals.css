@@ -9,15 +9,6 @@
 }
 
 @layer base {
-	.dark .react-flow__node {
-		background: var(--color-background);
-		color: var(--color-muted);
-	}
-
-	.light .react-flow__node {
-		background: var(--color-background);
-		color: var(--color-muted);
-	}
 }
 
 @theme inline {
@@ -94,6 +85,8 @@
 }
 
 .dark {
+	--xy-background-pattern-dots-color-default: rgb(49, 49, 49) !important;
+
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);

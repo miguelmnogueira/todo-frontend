@@ -6,6 +6,7 @@ import {
 } from "@xyflow/react";
 import { useTheme } from "./theme-provider";
 import { useCallback, useState } from "react";
+import TodoNode from "./todo-node";
 
 const FlowContainer = () => {
 	const { theme } = useTheme();
@@ -14,13 +15,26 @@ const FlowContainer = () => {
 		{
 			id: "n1",
 			position: { x: 0, y: 0 },
-			data: { label: "Node 1" },
-			type: "input",
+			data: { name: "teste" },
+			type: "todo",
 		},
 		{
 			id: "n2",
-			position: { x: 100, y: 100 },
-			data: { label: "Node 2" },
+			position: { x: 0, y: 60 },
+			data: { name: "teste" },
+			type: "todo",
+		},
+		{
+			id: "n3",
+			position: { x: 0, y: 120 },
+			data: { name: "teste" },
+			type: "todo",
+		},
+		{
+			id: "n4",
+			position: { x: 0, y: 180 },
+			data: { name: "teste" },
+			type: "todo",
 		},
 	];
 
@@ -34,6 +48,8 @@ const FlowContainer = () => {
 		[]
 	);
 
+	const nodeTypes = { todo: TodoNode };
+
 	return (
 		<div className="w-full h-full">
 			<ReactFlow
@@ -42,6 +58,9 @@ const FlowContainer = () => {
 				nodes={nodes}
 				onNodesChange={onNodesChange}
 				fitView
+				nodeTypes={nodeTypes}
+				maxZoom={2.5}
+				minZoom={1}
 			>
 				<Background />
 				<Controls />
