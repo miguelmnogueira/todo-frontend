@@ -57,10 +57,11 @@ const FlowContainer = () => {
 				proOptions={{ hideAttribution: true }}
 				nodes={nodes}
 				onNodesChange={onNodesChange}
-				fitView
 				nodeTypes={nodeTypes}
 				maxZoom={2.5}
 				minZoom={1}
+				fitView
+				fitViewOptions={{ maxZoom: 1.2 }}
 			>
 				<Background />
 				<Controls />
