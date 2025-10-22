@@ -1,4 +1,4 @@
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import FlowContainer from "@/components/flow-container";
 import { useSession } from "@/providers/session";
 import { useEffect } from "react";
 
@@ -11,10 +11,11 @@ const App = () => {
 	}, []);
 
 	return (
-		<div className="min-h-screen font-geist">
-			<div className=" inset-0 bg-background">
+		<div className="min-h-screen w-full font-geist">
+			{/* <div className=" inset-0 bg-background">
 				<div className="absolute inset-0 bg-[radial-gradient(#dddddd_1px,transparent_1px)] dark:bg-[radial-gradient(#1d1d1d_1px,transparent_1px)] bg-size-[30px_30px]" />
-			</div>
+			</div> */}
+			<FlowContainer />
 		</div>
 	);
 };

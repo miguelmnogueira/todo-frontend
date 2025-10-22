@@ -1,3 +1,4 @@
+@import "@xyflow/react/dist/style.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -5,6 +6,18 @@
 
 @theme {
 	--font-sans: "Geist", sans-serif;
+}
+
+@layer base {
+	.dark .react-flow__node {
+		background: var(--color-background);
+		color: var(--color-muted);
+	}
+
+	.light .react-flow__node {
+		background: var(--color-background);
+		color: var(--color-muted);
+	}
 }
 
 @theme inline {
