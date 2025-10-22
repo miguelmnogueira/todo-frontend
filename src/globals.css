@@ -85,7 +85,7 @@
 }
 
 .dark {
-	--xy-background-pattern-dots-color-default: rgb(49, 49, 49) !important;
+	--xy-background-pattern-dots-color-default: rgb(63, 63, 63) !important;
 
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);

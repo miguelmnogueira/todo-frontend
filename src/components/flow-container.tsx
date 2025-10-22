@@ -5,61 +5,75 @@ import {
 	applyNodeChanges,
 } from "@xyflow/react";
 import { useTheme } from "./theme-provider";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TodoNode from "./todo-node";
+import { useList } from "@/providers/list-provider";
+import type { Node } from "@xyflow/react";
+import type { TList } from "@/types/list.types";
 
 const FlowContainer = () => {
 	const { theme } = useTheme();
 
-	const initialNodes = [
-		{
-			id: "n1",
-			position: { x: 0, y: 0 },
-			data: { name: "teste" },
-			type: "todo",
-		},
-		{
-			id: "n2",
-			position: { x: 0, y: 60 },
-			data: { name: "teste" },
-			type: "todo",
-		},
-		{
-			id: "n3",
-			position: { x: 0, y: 120 },
-			data: { name: "teste" },
-			type: "todo",
-		},
-		{
-			id: "n4",
-			position: { x: 0, y: 180 },
-			data: { name: "teste" },
-			type: "todo",
-		},
-	];
+	const { currentList, setLists, lists } = useList();
+	const [listNodes, setListNodes] = useState<Node[]>([]);
 
-	const [nodes, setNodes] = useState(initialNodes);
+	const nodeTypes = { todo: TodoNode };
+
+	useEffect(() => {
+		if (!currentList) return;
+
+		const nodes: Node[] = currentList.todos.map((todo) => ({
+			id: todo.id,
+			position: todo.position,
+			data: { name: todo.title },
+			type: "todo",
+		}));
+
+		setListNodes(nodes);
+	}, [currentList]);
 
 	const onNodesChange = useCallback(
 		(changes: any) =>
-			setNodes((nodesSnapshot) =>
-				applyNodeChanges(changes, nodesSnapshot)
+			setListNodes((nodesSnapshot) =>
+				applyNodeChanges(changes, nodesSnapshot || [])
 			),
 		[]
 	);
 
-	const nodeTypes = { todo: TodoNode };
+	const nodeDragHandler = (draggedNode: Node) => {
+		if (!currentList) return;
+
+		const updatedTodos = currentList.todos.map((todo) =>
+			todo.id === draggedNode.id
+				? { ...todo, position: draggedNode.position }
+				: todo
+		);
+
+		const updatedList: TList = { ...currentList, todos: updatedTodos };
+
+		setLists((prevLists) =>
+			prevLists.map((list) =>
+				list.id === updatedList.id ? updatedList : list
+			)
+		);
+	};
 
 	return (
 		<div className="w-full h-full">
 			<ReactFlow
 				colorMode={theme}
 				proOptions={{ hideAttribution: true }}
-				nodes={nodes}
+				nodes={listNodes}
 				onNodesChange={onNodesChange}
 				nodeTypes={nodeTypes}
 				maxZoom={2.5}
 				minZoom={1}
+				onNodeDrag={(
+					_event: React.MouseEvent<Element, MouseEvent>,
+					node: Node
+				) => {
+					nodeDragHandler(node);
+				}}
 				fitView
 				fitViewOptions={{ maxZoom: 1.2 }}
 			>

@@ -15,10 +15,32 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import { useTheme } from "../theme-provider";
+import { useList } from "@/providers/list-provider";
+import type { TList } from "@/types/list.types";
 
 export function AppSidebar() {
 	const { setTheme, theme } = useTheme();
 	const { state } = useSidebar();
+	const { lists, setLists, currentList, setCurrentList } = useList();
+
+	const createList = () => {
+		const newList: TList = {
+			id: crypto.randomUUID().toString(),
+			name: "New List",
+			createdAt: new Date(Date.now()),
+			todos: [
+				{
+					id: crypto.randomUUID().toString(),
+					title: "",
+					position: { x: 0, y: 0 },
+					completed: false,
+					createdAt: new Date(Date.now()),
+					updatedAt: new Date(Date.now()),
+				},
+			],
+		};
+		setLists([...(lists || []), newList]);
+	};
 	return (
 		<Sidebar className="font-sans relative" collapsible="icon">
 			<SidebarHeader>
@@ -32,11 +54,9 @@ export function AppSidebar() {
 
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton asChild>
-							<a href="#">
-								<Plus />
-								<span>New List</span>
-							</a>
+						<SidebarMenuButton onClick={() => createList()}>
+							<Plus />
+							<span>New List</span>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 					<SidebarMenuItem>
@@ -53,7 +73,25 @@ export function AppSidebar() {
 				<SidebarGroup>
 					<SidebarGroupLabel>Lists</SidebarGroupLabel>
 					<SidebarGroupContent>
-						<SidebarMenu></SidebarMenu>
+						<SidebarMenu>
+							{lists?.map((list) => (
+								<SidebarMenuItem key={list.id}>
+									<SidebarMenuButton
+										className={
+											currentList?.id == list.id
+												? "bg-muted"
+												: ""
+										}
+										onClick={() => {
+											setCurrentList(list);
+											console.log(currentList);
+										}}
+									>
+										{list.name}
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							))}
+						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
@@ -66,7 +104,9 @@ export function AppSidebar() {
 									? setTheme("dark")
 									: setTheme("light");
 							}}
-						></SidebarMenuButton>
+						>
+							Theming Switch
+						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarFooter>
