@@ -11,6 +11,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Button } from "../common/button";
 
 export function AppSidebar() {
     return (
@@ -33,12 +34,12 @@ export function AppSidebar() {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
+                        <Button asChild>
                             <a href="#">
                                 <Search />
                                 <span>Search</span>
                             </a>
-                        </SidebarMenuButton>
+                        </Button>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
