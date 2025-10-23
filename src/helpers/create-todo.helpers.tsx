@@ -4,7 +4,7 @@ export function createTodo(title?: string) {
 	const todoId = crypto.randomUUID();
 	const newTodo: TTodo = {
 		id: crypto.randomUUID(),
-		title: "",
+		title: title ? title : "",
 		completed: false,
 		createdAt: new Date(Date.now()),
 		updatedAt: new Date(Date.now()),
@@ -12,7 +12,7 @@ export function createTodo(title?: string) {
 			position: { x: 0, y: 0 },
 			id: todoId,
 			data: {
-				name: "",
+				name: title ? title : "",
 				checked: false,
 				id: todoId,
 				onChange: () => {}, // substituido no flow-container

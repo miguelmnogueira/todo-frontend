@@ -15,7 +15,7 @@ export default function NumberNode({ id, data }: NodeProps<NumberNode>) {
 	const textareaRef = useRef<HTMLTextAreaElement>(null!);
 
 	return (
-		<NodeContextMenu textareaRef={textareaRef} id={id}>
+		<NodeContextMenu textareaRef={textareaRef} id={id} name={data.name}>
 			<div
 				className="bg-(--xy-node-background-color-default) rounded-sm border py-3 px-2.5 flex gap-5 justify-around items-center"
 				onAuxClick={(e) => {
