@@ -1,5 +1,3 @@
-"use client";
-
 type CheckboxProps = {
 	checked: boolean;
 	setChecked: (checked: boolean) => void;

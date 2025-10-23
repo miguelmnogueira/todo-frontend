@@ -3,7 +3,6 @@ import {
 	Background,
 	Controls,
 	applyNodeChanges,
-	useNodes,
 } from "@xyflow/react";
 import { useTheme } from "./theme-provider";
 import { useCallback, useEffect, useState } from "react";
@@ -13,53 +12,62 @@ import type { Node, NodeChange } from "@xyflow/react";
 
 const FlowContainer = () => {
 	const { theme } = useTheme();
-	const nodes = useNodes();
 	const { currentList, setLists } = useList();
-	const [arrayNodes, setArrayNodes] = useState<Node[]>([]);
-
+	const [nodes, setNodes] = useState<Node[]>([]);
 	const nodeTypes = { todo: TodoNode };
-
-	useEffect(() => {
-		if (!currentList) return;
-		setArrayNodes(currentList.todos.map((t) => t.node));
-	}, [currentList]);
 
 	const onNodesChange = useCallback(
 		(changes: NodeChange[]) =>
-			setArrayNodes((nodesSnapshot) =>
-				applyNodeChanges(changes, nodesSnapshot)
-			),
+			setNodes((nds) => applyNodeChanges(changes, nds)),
 		[]
 	);
 
+	const onNodeDataChange = useCallback((id: string, newData: any) => {
+		setNodes((nds) =>
+			nds.map((n) =>
+				n.id === id ? { ...n, data: { ...n.data, ...newData } } : n
+			)
+		);
+	}, []);
+
+    // chamada dos nodes de cada to-do da lista atual
 	useEffect(() => {
 		if (!currentList) return;
+		setNodes(
+			currentList.todos.map((t) => ({
+				...t.node,
+				data: { ...t.node.data, onChange: onNodeDataChange },
+			}))
+		);
+	}, [currentList]);
 
-		setLists((prevLists) => {
-			return prevLists.map((list) => {
-				if (list.id === currentList.id)
-					return {
-						...list,
-						todos: list.todos.map((todo) => ({
-							...todo,
-							node:
-								nodes.find((n) => n.id === todo.node.id) ||
-								todo.node,
-						})),
-					};
-				else {
-					return list;
-				}
-			});
-		});
-	}, [nodes]);
+
+    // sincronizar mudancas dos nodes para o lists
+	useEffect(() => {
+		if (!currentList) return;
+		setLists((prevLists) =>
+			prevLists.map((list) =>
+				list.id === currentList.id
+					? {
+							...list,
+							todos: list.todos.map((todo) => ({
+								...todo,
+								node:
+									nodes.find((n) => n.id === todo.node.id) ||
+									todo.node,
+							})),
+					  }
+					: list
+			)
+		);
+	}, [nodes, currentList, setLists]);
 
 	return (
 		<div className="w-full h-full">
 			<ReactFlow
 				colorMode={theme}
 				proOptions={{ hideAttribution: true }}
-				nodes={arrayNodes}
+				nodes={nodes}
 				onNodesChange={onNodesChange}
 				nodeTypes={nodeTypes}
 				maxZoom={2.5}

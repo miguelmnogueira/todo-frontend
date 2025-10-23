@@ -10,7 +10,12 @@ export function createTodo(id: string) {
 		node: {
 			position: { x: 0, y: 0 },
 			id: id,
-			data: { name: "", checked: false },
+			data: {
+				name: "",
+				checked: false,
+				id: id,
+				onChange: () => {}, // substituido no flow-container
+			},
 			type: "todo",
 		},
 	};
