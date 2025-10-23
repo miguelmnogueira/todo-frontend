@@ -27,7 +27,7 @@ export function AppSidebar() {
 	const addTodo = () => {
 		if (!currentList) return;
 
-		const newTodo = createTodo(currentList.id);
+		const newTodo = createTodo();
 		setLists((prevLists) =>
 			prevLists.map((list) =>
 				list.id === currentList.id
@@ -35,7 +35,7 @@ export function AppSidebar() {
 					: list
 			)
 		);
-    };
+	};
 
 	return (
 		<Sidebar className="font-sans relative" collapsible="icon">
