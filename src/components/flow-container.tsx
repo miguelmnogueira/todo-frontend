@@ -16,12 +16,14 @@ const FlowContainer = () => {
 	const [nodes, setNodes] = useState<Node[]>([]);
 	const nodeTypes = { todo: TodoNode };
 
+	// snippet do react flow para funcoes como drag do node
 	const onNodesChange = useCallback(
 		(changes: NodeChange[]) =>
 			setNodes((nds) => applyNodeChanges(changes, nds)),
 		[]
 	);
 
+	// atualiza os dados de dentro do todo (name e checked)
 	const onNodeDataChange = useCallback((id: string, newData: any) => {
 		setNodes((nds) =>
 			nds.map((n) =>
@@ -29,6 +31,27 @@ const FlowContainer = () => {
 			)
 		);
 	}, []);
+
+	// deleta o todo se o node for deletado
+	const onNodeDelete = useCallback(
+		(nodes: Node[]) => {
+			setLists((prevLists) =>
+				prevLists.map((list) =>
+					list.id === currentList?.id
+						? {
+								...list,
+								todos: list.todos.filter(
+									(todo) =>
+										!nodes.some((n) => n.id === todo.id)
+								),
+						  }
+						: list
+				)
+			);
+			console.log(nodes);
+		},
+		[currentList]
+	);
 
 	//TODO automaticamente instanciar novo todo (recarregar esse useeffect)
 	// chamada dos nodes de cada to-do da lista atual
@@ -73,6 +96,7 @@ const FlowContainer = () => {
 				maxZoom={2.5}
 				minZoom={1}
 				fitView
+				onDelete={({ nodes }) => onNodeDelete(nodes)}
 				fitViewOptions={{ maxZoom: 1.2 }}
 			>
 				<Background />
