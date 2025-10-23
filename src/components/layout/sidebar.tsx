@@ -1,4 +1,4 @@
-import { Plus, Search } from "lucide-react";
+import { List, Plus, Search } from "lucide-react";
 
 import {
 	Sidebar,
@@ -24,18 +24,24 @@ export function AppSidebar() {
 	const { lists, setLists, currentList, setCurrentList } = useList();
 
 	const createList = () => {
+		let id = crypto.randomUUID().toString();
 		const newList: TList = {
-			id: crypto.randomUUID().toString(),
+			id: id,
 			name: "New List",
 			createdAt: new Date(Date.now()),
 			todos: [
 				{
-					id: crypto.randomUUID().toString(),
+					id: id,
 					title: "",
-					position: { x: 0, y: 0 },
 					completed: false,
 					createdAt: new Date(Date.now()),
 					updatedAt: new Date(Date.now()),
+					node: {
+						position: { x: 0, y: 0 },
+						id: id,
+						data: { name: "", checked: false },
+						type: "todo",
+					},
 				},
 			],
 		};
@@ -44,7 +50,7 @@ export function AppSidebar() {
 	return (
 		<Sidebar className="font-sans relative" collapsible="icon">
 			<SidebarHeader>
-				<SidebarTrigger className="absolute right-[0.6rem] top-1" />
+				<SidebarTrigger className="absolute right-[0.6rem] top-1 cursor-pointer" />
 
 				{state == "collapsed" ? (
 					<div className="mt-6"></div>
@@ -54,7 +60,10 @@ export function AppSidebar() {
 
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton onClick={() => createList()}>
+						<SidebarMenuButton
+							onClick={() => createList()}
+							className="cursor-pointer"
+						>
 							<Plus />
 							<span>New List</span>
 						</SidebarMenuButton>
@@ -80,13 +89,15 @@ export function AppSidebar() {
 										className={
 											currentList?.id == list.id
 												? "bg-muted"
-												: ""
+												: "" +
+												  "flex-nowrap text-nowrap whitespace-nowrap!"
 										}
 										onClick={() => {
 											setCurrentList(list);
 											console.log(currentList);
 										}}
 									>
+										<List />
 										{list.name}
 									</SidebarMenuButton>
 								</SidebarMenuItem>

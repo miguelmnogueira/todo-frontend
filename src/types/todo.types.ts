@@ -1,10 +1,10 @@
-import type { XYPosition } from "@xyflow/react";
+import type { Node } from "@xyflow/react";
 
 export type TTodo = {
 	id: string;
 	title: string;
-    position: XYPosition;
 	completed: boolean;
 	createdAt: Date;
 	updatedAt: Date;
+	node: Node;
 };

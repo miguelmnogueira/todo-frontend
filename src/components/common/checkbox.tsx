@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+type CheckboxProps = {
+	checked: boolean;
+	setChecked: (checked: boolean) => void;
+};
 
-export default function Component() {
-	const [checked, setChecked] = useState(false);
+export default function Component({ checked, setChecked }: CheckboxProps) {
 	return (
 		<div
-			className={`relative min-w-4 size-5 rounded-sm cursor-pointer  ${
+			className={`relative min-w-4 size-5 rounded-sm cursor-pointer duration-100 ease-in ${
 				checked
 					? "bg-primary text-primary-foreground"
 					: "bg-muted text-muted-foreground"

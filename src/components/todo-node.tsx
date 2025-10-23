@@ -30,15 +30,14 @@ export default function NumberNode({ data }: NodeProps<NumberNode>) {
 	const [name, setName] = useState(data.name);
 
 	return (
-		<div className="bg-(--xy-node-background-color-default) rounded-sm border py-3 px-2.5 flex gap-5 justify-around items-center ">
-			<input
-				type="text"
-				className="text-sm outline-0 wrap-break-word text-wrap max-w-[150px] placeholder-muted-foreground"
+		<div className="bg-(--xy-node-background-color-default) rounded-sm border py-3 px-2.5 flex gap-5 justify-around items-center">
+			<textarea
+				className="text-sm outline-0 placeholder-muted-foreground resize-none max-w-[150px] max-h-24"
 				spellCheck={false}
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 				placeholder="Untitled Task"
-			></input>
+			></textarea>
 			<Checkbox />
 		</div>
 	);
