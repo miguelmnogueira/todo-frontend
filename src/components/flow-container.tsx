@@ -30,7 +30,8 @@ const FlowContainer = () => {
 		);
 	}, []);
 
-    // chamada dos nodes de cada to-do da lista atual
+	//TODO automaticamente instanciar novo todo (recarregar esse useeffect)
+	// chamada dos nodes de cada to-do da lista atual
 	useEffect(() => {
 		if (!currentList) return;
 		setNodes(
@@ -41,8 +42,7 @@ const FlowContainer = () => {
 		);
 	}, [currentList]);
 
-
-    // sincronizar mudancas dos nodes para o lists
+	// sincronizar mudancas dos nodes para o lists
 	useEffect(() => {
 		if (!currentList) return;
 		setLists((prevLists) =>
