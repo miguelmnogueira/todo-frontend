@@ -84,6 +84,7 @@ export function AppSidebar() {
 										}
 										onClick={() => {
 											setCurrentList(list);
+											console.log(currentList);
 										}}
 									>
 										<List />

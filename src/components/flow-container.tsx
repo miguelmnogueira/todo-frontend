@@ -34,23 +34,26 @@ const FlowContainer = () => {
 
 	// deleta o todo se o node for deletado
 	const onNodeDelete = useCallback(
-		(nodes: Node[]) => {
+		(deletedNodes: Node[]) => {
+			// previnir deleted nodes de voltarem
+			const deletedIds = new Set(deletedNodes.map((n) => n.id));
+
+			setNodes((nds) => nds.filter((n) => !deletedIds.has(n.id)));
+
 			setLists((prevLists) =>
 				prevLists.map((list) =>
 					list.id === currentList?.id
 						? {
 								...list,
 								todos: list.todos.filter(
-									(todo) =>
-										!nodes.some((n) => n.id === todo.id)
+									(todo) => !deletedIds.has(todo.node.id)
 								),
 						  }
 						: list
 				)
 			);
-			console.log(nodes);
 		},
-		[currentList]
+		[currentList?.id]
 	);
 
 	//TODO automaticamente instanciar novo todo (recarregar esse useeffect)
