@@ -1,9 +1,9 @@
 import type { TTodo } from "@/types/todo.types";
 
-export function createTodo(id: string) {
+export function createTodo(title?: string) {
 	const todoId = crypto.randomUUID();
 	const newTodo: TTodo = {
-		id: id,
+		id: crypto.randomUUID(),
 		title: "",
 		completed: false,
 		createdAt: new Date(Date.now()),
