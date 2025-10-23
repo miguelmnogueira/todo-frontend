@@ -34,7 +34,7 @@ export default function NumberNode({ data }: NodeProps<NumberNode>) {
 			<input
 				type="text"
 				className="text-sm outline-0 wrap-break-word text-wrap max-w-[150px] placeholder-muted-foreground"
-				contentEditable
+				spellCheck={false}
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 				placeholder="Untitled Task"
