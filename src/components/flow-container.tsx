@@ -21,7 +21,6 @@ const FlowContainer = () => {
 
 	useEffect(() => {
 		if (!currentList) return;
-
 		setArrayNodes(currentList.todos.map((t) => t.node));
 	}, [currentList]);
 
@@ -36,21 +35,23 @@ const FlowContainer = () => {
 	useEffect(() => {
 		if (!currentList) return;
 
-		setLists((prevLists) =>
-			prevLists.map((list) =>
-				list.id === currentList.id
-					? {
-							...list,
-							todos: list.todos.map((todo) => ({
-								...todo,
-								node:
-									nodes.find((n) => n.id === todo.node.id) ||
-									todo.node,
-							})),
-					  }
-					: list
-			)
-		);
+		setLists((prevLists) => {
+			return prevLists.map((list) => {
+				if (list.id === currentList.id)
+					return {
+						...list,
+						todos: list.todos.map((todo) => ({
+							...todo,
+							node:
+								nodes.find((n) => n.id === todo.node.id) ||
+								todo.node,
+						})),
+					};
+				else {
+					return list;
+				}
+			});
+		});
 	}, [nodes]);
 
 	return (

@@ -16,37 +16,28 @@ import {
 } from "@/components/ui/sidebar";
 import { useTheme } from "../theme-provider";
 import { useList } from "@/providers/list-provider";
-import type { TList } from "@/types/list.types";
+import { createList } from "@/helpers/create-list.helpers";
+import { createTodo } from "@/helpers/create-todo.helpers";
 
 export function AppSidebar() {
 	const { setTheme, theme } = useTheme();
 	const { state } = useSidebar();
 	const { lists, setLists, currentList, setCurrentList } = useList();
 
-	const createList = () => {
-		let id = crypto.randomUUID().toString();
-		const newList: TList = {
-			id: id,
-			name: "New List",
-			createdAt: new Date(Date.now()),
-			todos: [
-				{
-					id: id,
-					title: "",
-					completed: false,
-					createdAt: new Date(Date.now()),
-					updatedAt: new Date(Date.now()),
-					node: {
-						position: { x: 0, y: 0 },
-						id: id,
-						data: { name: "", checked: false },
-						type: "todo",
-					},
-				},
-			],
-		};
-		setLists([...(lists || []), newList]);
+	const addTodo = () => {
+		if (!currentList) return;
+
+		const newTodo = createTodo(currentList.id);
+
+		setLists((prevLists) =>
+			prevLists.map((list) =>
+				list.id === currentList.id
+					? { ...list, todos: [...list.todos, newTodo] }
+					: list
+			)
+		);
 	};
+
 	return (
 		<Sidebar className="font-sans relative" collapsible="icon">
 			<SidebarHeader>
@@ -61,7 +52,9 @@ export function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton
-							onClick={() => createList()}
+							onClick={() => {
+								setLists([...(lists || []), createList()]);
+							}}
 							className="cursor-pointer"
 						>
 							<Plus />
@@ -69,11 +62,9 @@ export function AppSidebar() {
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 					<SidebarMenuItem>
-						<SidebarMenuButton asChild>
-							<a href="#">
-								<Search />
-								<span>Search</span>
-							</a>
+						<SidebarMenuButton onClick={() => addTodo()}>
+							<Search />
+							<span>Search</span>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
