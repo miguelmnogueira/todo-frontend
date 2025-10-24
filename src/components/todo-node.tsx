@@ -1,4 +1,4 @@
-import type { Node, NodeProps } from "@xyflow/react";
+import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
 import Checkbox from "./common/checkbox";
 import { cn } from "@/lib/utils";
 import NodeContextMenu from "./layout/node-contextmenu";
@@ -9,15 +9,23 @@ type NumberNode = Node<{
 	checked: boolean;
 	id: string;
 	onChange: (id: string, newData: any) => void;
+	selected: boolean;
 }>;
 
-export default function NumberNode({ id, data }: NodeProps<NumberNode>) {
+export default function NumberNode({
+	id,
+	data,
+	selected,
+}: NodeProps<NumberNode>) {
 	const textareaRef = useRef<HTMLTextAreaElement>(null!);
 
 	return (
 		<NodeContextMenu textareaRef={textareaRef} id={id} name={data.name}>
 			<div
-				className="bg-(--xy-node-background-color-default) rounded-sm border py-3 px-2.5 flex gap-5 justify-around items-center"
+				className={cn(
+					"bg-(--xy-node-background-color-default) rounded-sm border py-3 px-2.5 flex gap-5 justify-around items-center",
+					selected ? "ring-1 ring-ring" : ""
+				)}
 				onAuxClick={(e) => {
 					if (e.button == 1)
 						data.onChange(id, { checked: !data.checked });
@@ -43,6 +51,30 @@ export default function NumberNode({ id, data }: NodeProps<NumberNode>) {
 					setChecked={() =>
 						data.onChange(id, { checked: !data.checked })
 					}
+				/>
+				<Handle
+					className={selected ? "visible" : "invisible"}
+					type="source"
+					position={Position.Top}
+					id={"t"}
+				/>
+				<Handle
+					className={selected ? "visible" : "invisible"}
+					type="target"
+					position={Position.Right}
+					id={"r"}
+				/>
+				<Handle
+					className={selected ? "visible" : "invisible"}
+					type="target"
+					position={Position.Bottom}
+					id={"b"}
+				/>
+				<Handle
+					className={selected ? "visible" : "invisible"}
+					type="target"
+					position={Position.Left}
+					id={"l"}
 				/>
 			</div>
 		</NodeContextMenu>

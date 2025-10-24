@@ -6,7 +6,7 @@ type CheckboxProps = {
 export default function Component({ checked, setChecked }: CheckboxProps) {
 	return (
 		<div
-			className={`relative min-w-4 size-5 rounded-sm cursor-pointer duration-100 ease-in ${
+			className={`relative min-w-4 size-5 rounded-[3px] cursor-pointer duration-100 ease-in ${
 				checked
 					? "bg-primary text-primary-foreground"
 					: "bg-muted text-muted-foreground"

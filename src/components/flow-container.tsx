@@ -3,6 +3,7 @@ import {
 	Background,
 	Controls,
 	applyNodeChanges,
+	ConnectionMode,
 } from "@xyflow/react";
 import { useTheme } from "./theme-provider";
 import { useCallback, useEffect, useState } from "react";
@@ -23,7 +24,7 @@ const FlowContainer = () => {
 		[]
 	);
 
-	// atualiza os dados de dentro do todo (name e checked)
+	// atualiza os dados de dentro do to-do (name e checked)
 	const onNodeDataChange = useCallback((id: string, newData: any) => {
 		setNodes((nds) =>
 			nds.map((n) =>
@@ -32,7 +33,7 @@ const FlowContainer = () => {
 		);
 	}, []);
 
-	// deleta o todo se o node for deletado
+	// deleta o to-do se o node for deletado
 	const onNodeDelete = useCallback(
 		(deletedNodes: Node[]) => {
 			// previnir deleted nodes de voltarem
@@ -101,6 +102,7 @@ const FlowContainer = () => {
 				fitView
 				onDelete={({ nodes }) => onNodeDelete(nodes)}
 				fitViewOptions={{ maxZoom: 1.2 }}
+				connectionMode={ConnectionMode.Loose}
 			>
 				<Background />
 				<Controls />
