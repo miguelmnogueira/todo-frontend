@@ -24,7 +24,7 @@ export default function NumberNode({
 			<div
 				className={cn(
 					"bg-(--xy-node-background-color-default) rounded-sm border py-3 px-2.5 flex gap-5 justify-around items-center",
-					selected ? "ring-1 ring-ring" : ""
+					selected ? "ring-1 ring-ring/60 shadow-2xl" : ""
 				)}
 				onAuxClick={(e) => {
 					if (e.button == 1)
