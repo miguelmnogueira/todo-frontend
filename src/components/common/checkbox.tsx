@@ -1,3 +1,5 @@
+import type { HtmlHTMLAttributes, SVGProps } from "react";
+
 type CheckboxProps = {
 	checked: boolean;
 	setChecked: (checked: boolean) => void;
@@ -22,7 +24,7 @@ export default function Component({ checked, setChecked }: CheckboxProps) {
 	);
 }
 
-function CheckIcon(props: any) {
+function CheckIcon(props: SVGProps<SVGSVGElement>) {
 	return (
 		<svg
 			{...props}
