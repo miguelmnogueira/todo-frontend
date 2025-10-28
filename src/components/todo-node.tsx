@@ -1,4 +1,4 @@
-import { Handle, Position, type Node, type NodeProps } from "@xyflow/react";
+import { type Node, type NodeProps } from "@xyflow/react";
 import Checkbox from "./common/checkbox";
 import { cn } from "@/lib/utils";
 import NodeContextMenu from "./layout/node-contextmenu";

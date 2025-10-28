@@ -1,4 +1,4 @@
-import type { HtmlHTMLAttributes, SVGProps } from "react";
+import type { SVGProps } from "react";
 
 type CheckboxProps = {
 	checked: boolean;
