@@ -52,7 +52,7 @@ export default function NumberNode({
 						data.onChange(id, { checked: !data.checked })
 					}
 				/>
-				<Handle
+				{/* <Handle
 					className={selected ? "visible" : "invisible"}
 					type="source"
 					position={Position.Top}
@@ -75,7 +75,7 @@ export default function NumberNode({
 					type="target"
 					position={Position.Left}
 					id={"l"}
-				/>
+				/> */}
 			</div>
 		</NodeContextMenu>
 	);

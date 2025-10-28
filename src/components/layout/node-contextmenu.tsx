@@ -20,10 +20,9 @@ type NodeContextMenuProps = {
 const NodeContextMenu = ({
 	children,
 	textareaRef,
-	id,
 	name,
 }: NodeContextMenuProps) => {
-	const { currentList, setLists } = useList();
+	const { currentList, setLists, setCurrentList } = useList();
 
 	// has to wait the closing animation
 	const handleEdit = () => {
@@ -38,14 +37,21 @@ const NodeContextMenu = ({
 	const handleDuplicate = () => {
 		if (!currentList) return;
 		const newTodo = createTodo(name);
-        
-		setLists((prevLists) =>
-			prevLists.map((list) =>
+
+		setLists((prevLists) => {
+			const updatedLists = prevLists.map((list) =>
 				list.id === currentList.id
 					? { ...list, todos: [...list.todos, newTodo] }
 					: list
-			)
-		);
+			);
+
+			const updatedList = updatedLists.find(
+				(list) => list.id === currentList.id
+			);
+			if (updatedList) setCurrentList(updatedList);
+
+			return updatedLists;
+		});
 	};
 	return (
 		<ContextMenu>

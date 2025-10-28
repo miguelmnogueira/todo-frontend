@@ -24,17 +24,24 @@ export function AppSidebar() {
 	const { state } = useSidebar();
 	const { lists, setLists, currentList, setCurrentList } = useList();
 
-	const addTodo = () => {
+	const addTodo = (name?: string) => {
 		if (!currentList) return;
 
-		const newTodo = createTodo();
-		setLists((prevLists) =>
-			prevLists.map((list) =>
+		const newTodo = createTodo(name);
+		setLists((prevLists) => {
+			const updatedLists = prevLists.map((list) =>
 				list.id === currentList.id
 					? { ...list, todos: [...list.todos, newTodo] }
 					: list
-			)
-		);
+			);
+			// atualiza currentlist com os valores do list (com os atributos dos nodes atualizados)
+			const updatedList = updatedLists.find(
+				(list) => list.id === currentList.id
+			);
+			if (updatedList) setCurrentList(updatedList);
+
+			return updatedLists;
+		});
 	};
 
 	return (
@@ -84,7 +91,6 @@ export function AppSidebar() {
 										}
 										onClick={() => {
 											setCurrentList(list);
-											console.log(currentList);
 										}}
 									>
 										<List />
