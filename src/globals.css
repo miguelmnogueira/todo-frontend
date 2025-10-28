@@ -1,3 +1,4 @@
+@import "@xyflow/react/dist/style.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -5,6 +6,9 @@
 
 @theme {
 	--font-sans: "Geist", sans-serif;
+}
+
+@layer base {
 }
 
 @theme inline {
@@ -81,6 +85,8 @@
 }
 
 .dark {
+	--xy-background-pattern-dots-color-default: rgb(63, 63, 63) !important;
+
 	--background: oklch(0.145 0 0);
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);
