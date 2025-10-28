@@ -7,8 +7,9 @@ import {
 	ContextMenuSeparator,
 	ContextMenuTrigger,
 } from "../ui/context-menu";
-import { useList } from "@/providers/list-provider";
 import { createTodo } from "@/helpers/create-todo.helpers";
+import { UseAddTodoToList } from "@/helpers/add-todo-to-list";
+import type { DeleteElementsOptions } from "@xyflow/react";
 
 type NodeContextMenuProps = {
 	children: React.ReactNode;
@@ -22,8 +23,7 @@ const NodeContextMenu = ({
 	textareaRef,
 	name,
 }: NodeContextMenuProps) => {
-	const { currentList, setLists, setCurrentList } = useList();
-
+	const { addTodoToList } = UseAddTodoToList();
 	// has to wait the closing animation
 	const handleEdit = () => {
 		setTimeout(() => {
@@ -35,23 +35,8 @@ const NodeContextMenu = ({
 	const handleDelete = () => {};
 
 	const handleDuplicate = () => {
-		if (!currentList) return;
 		const newTodo = createTodo(name);
-
-		setLists((prevLists) => {
-			const updatedLists = prevLists.map((list) =>
-				list.id === currentList.id
-					? { ...list, todos: [...list.todos, newTodo] }
-					: list
-			);
-
-			const updatedList = updatedLists.find(
-				(list) => list.id === currentList.id
-			);
-			if (updatedList) setCurrentList(updatedList);
-
-			return updatedLists;
-		});
+		addTodoToList(newTodo);
 	};
 	return (
 		<ContextMenu>

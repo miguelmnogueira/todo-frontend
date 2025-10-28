@@ -52,30 +52,6 @@ export default function NumberNode({
 						data.onChange(id, { checked: !data.checked })
 					}
 				/>
-				{/* <Handle
-					className={selected ? "visible" : "invisible"}
-					type="source"
-					position={Position.Top}
-					id={"t"}
-				/>
-				<Handle
-					className={selected ? "visible" : "invisible"}
-					type="target"
-					position={Position.Right}
-					id={"r"}
-				/>
-				<Handle
-					className={selected ? "visible" : "invisible"}
-					type="target"
-					position={Position.Bottom}
-					id={"b"}
-				/>
-				<Handle
-					className={selected ? "visible" : "invisible"}
-					type="target"
-					position={Position.Left}
-					id={"l"}
-				/> */}
 			</div>
 		</NodeContextMenu>
 	);

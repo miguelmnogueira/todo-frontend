@@ -18,30 +18,19 @@ import { useTheme } from "../theme-provider";
 import { useList } from "@/providers/list-provider";
 import { createList } from "@/helpers/create-list.helpers";
 import { createTodo } from "@/helpers/create-todo.helpers";
+import { UseAddTodoToList } from "@/helpers/add-todo-to-list";
 
 export function AppSidebar() {
 	const { setTheme, theme } = useTheme();
 	const { state } = useSidebar();
 	const { lists, setLists, currentList, setCurrentList } = useList();
+	const { addTodoToList } = UseAddTodoToList();
 
 	const addTodo = (name?: string) => {
 		if (!currentList) return;
 
 		const newTodo = createTodo(name);
-		setLists((prevLists) => {
-			const updatedLists = prevLists.map((list) =>
-				list.id === currentList.id
-					? { ...list, todos: [...list.todos, newTodo] }
-					: list
-			);
-			// atualiza currentlist com os valores do list (com os atributos dos nodes atualizados)
-			const updatedList = updatedLists.find(
-				(list) => list.id === currentList.id
-			);
-			if (updatedList) setCurrentList(updatedList);
-
-			return updatedLists;
-		});
+		addTodoToList(newTodo);
 	};
 
 	return (
